@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const morgan_1 = __importDefault(require("morgan"));
 const cors_1 = __importDefault(require("cors"));
+const user_routes_1 = require("./router/user.routes");
 class Server {
     constructor() {
         this.app = (0, express_1.default)();
@@ -14,12 +15,11 @@ class Server {
         this.app.use(express_1.default.urlencoded({ extended: true }));
         this.app.use((0, morgan_1.default)('dev'));
         this.app.use((0, cors_1.default)());
-        this.app.get('/api/hola', (req, res) => {
-            res.status(200).json({
-                message: 'Hola Mundo!!!'
-            });
-        });
+        this.app.use('/api', this.routers());
         this.listen();
+    }
+    routers() {
+        return [new user_routes_1.UserRouter().router];
     }
     listen() {
         this.app.listen(this.port, () => { console.log('\x1b[33m%s\x1b[0m', `Server listening on port ${this.port}`); });
