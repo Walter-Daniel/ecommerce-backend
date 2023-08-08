@@ -1,9 +1,9 @@
-import { Request, Response } from "express"
+import { Request, Response } from "express";
 
 export class UserController {
     getUsers(req: Request, res: Response){
         res.status(200).json({
-            user: "Walter Carrizo"
+            user: 'Walter Carrizo'
         })
     }
 }
