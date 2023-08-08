@@ -6,7 +6,7 @@ export class UserRouter extends BaseRouter<UserController>{
         super(UserController)
     }
 
-    routes():void {
+    routes(): void {
         this.router.get('/user', (req, res) => this.controller.getUsers(req, res))
     }
 }
