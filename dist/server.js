@@ -24,7 +24,7 @@ class Server extends config_1.ConfigServer {
         return [new user_routes_1.UserRouter().router];
     }
     listen() {
-        this.app.listen(this.port, () => { console.log('\x1b[33m%s\x1b[0m', `Server listening on port ${this.port}`); });
+        this.app.listen(this.port, () => { console.log('\x1b[35m%s\x1b[0m', `Server listening on port ${this.port}`); });
     }
 }
 new Server();
