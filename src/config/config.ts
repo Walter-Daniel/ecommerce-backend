@@ -1,5 +1,5 @@
 import * as dotenv from 'dotenv';
-import { DataSourceOptions } from 'typeorm';
+import { DataSource, DataSourceOptions } from 'typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
 //inicializar una clase abstracta, no se puede instanciar. se puede extender como herencia.
@@ -48,6 +48,15 @@ export abstract class ConfigServer {
             synchronize: true,
             logging: false,
             namingStrategy: new SnakeNamingStrategy(), //userName => user_name
+        }
+    }
+
+    async dbConnect(): Promise<void> {
+        try {
+            await new DataSource(this.typeORMConfig).initialize();
+            console.log('\x1b[36m%s\x1b[0m', 'Database Connected'); 
+        } catch (error) {
+            console.log('\x1b[31m%s\x1b[0m', 'Database Connection Error: ${error}' );
         }
     }
 }
