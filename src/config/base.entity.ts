@@ -12,7 +12,7 @@ export abstract class BaseEntity {
         name: 'created_at',
         type: 'timestamp' //trae año, día, mes y hora
     })
-    createAd!: Date;
+    createAt!: Date;
 
     @UpdateDateColumn({
         name: 'update_at',
