@@ -1,6 +1,7 @@
 import * as dotenv from 'dotenv';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
+import { AppDataSource } from './data.source';
 
 //inicializar una clase abstracta, no se puede instanciar. se puede extender como herencia.
 
@@ -35,24 +36,7 @@ export abstract class ConfigServer {
         return '.' + arrEnv.join('.')
     }
 
-    public get typeORMConfig(): DataSourceOptions {
-        return {
-            type: 'mysql',
-            host: this.getEnvironment('DB_HOST'),
-            port: this.getNumberEnv('DB_PORT'),
-            username: this.getEnvironment('DB_USER'),
-            password: this.getEnvironment('DB_PASSWORD'),
-            database: this.getEnvironment('DB_DATABASE'),
-            entities: [__dirname + '/../**/*.entity{.ts,.js}'], // Si queremos que busque fuera de un directorio y por nombre de archivo y extensión. El proyecto busca en dif carpetas los archivos con terminación entity.js o entity.ts
-            migrations: [__dirname + '/../../migrations/*{.ts,.js}'],
-            synchronize: true,
-            logging: false,
-            namingStrategy: new SnakeNamingStrategy(), //userName => user_name
-        }
-    }
-
-    async dbConnect(): Promise<DataSource> {
-        console.log('\x1b[36m%s\x1b[0m', 'Database Connected'); 
-        return await new DataSource(this.typeORMConfig).initialize();
+    get initConnect(): Promise<DataSource> {
+        return AppDataSource.initialize();
     }
 }
