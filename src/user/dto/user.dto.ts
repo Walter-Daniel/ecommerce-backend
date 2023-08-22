@@ -10,9 +10,6 @@ export class UserDTO extends BaseDTO {
     lastname!: string;
 
     @IsNotEmpty()
-    rol!: string;
-
-    @IsNotEmpty()
     email!: string;
 
     @IsNotEmpty()
