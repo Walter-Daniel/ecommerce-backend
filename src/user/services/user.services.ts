@@ -1,7 +1,7 @@
-import { DeleteResult, UpdateResult } from "typeorm";
-import { BaseServise } from "../../config/base.service";
-import { UserDTO } from "../dto/user.dto";
-import { UserEntity } from "../entities/user.entity";
+import { DeleteResult, UpdateResult } from 'typeorm';
+import { BaseServise } from '../../config/base.service';
+import { UserDTO } from '../dto/user.dto';
+import { UserEntity } from '../entities/user.entity';
 
 export class UserService extends BaseServise<UserEntity> {
 
