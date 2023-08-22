@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { CategoryService } from "../services/category.service";
 
-export class UserController {
+export class CategoryController {
 
     constructor(private readonly userService: CategoryService = new CategoryService()){};
 
