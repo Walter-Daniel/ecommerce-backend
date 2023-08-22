@@ -11,9 +11,6 @@ export class UserEntity extends BaseEntity {
     @Column()
     lastname!: string;
 
-    @Column({ default: 'user' })
-    rol!: string;
-
     @Column()
     email!: string;
 
