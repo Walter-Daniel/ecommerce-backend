@@ -1,4 +1,3 @@
-
 import { BaseRouter } from '../../shared/router/router';
 import { CustomerController } from '../controller/customer.controller';
 
