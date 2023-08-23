@@ -1,7 +1,8 @@
 import { DeleteResult, UpdateResult } from "typeorm";
 import { BaseServise } from "../../config/base.service";
 import { CustomerEntity } from "../entities/customer.entity";
-import { CustomerDTO } from "../controller/customer.controller";
+import { CustomerDTO } from "../dto/customer.dto";
+;
 
 export class CustomerService extends BaseServise<CustomerEntity> {
 
