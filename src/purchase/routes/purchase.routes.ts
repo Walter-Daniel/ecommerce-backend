@@ -2,7 +2,7 @@
 import { BaseRouter } from '../../shared/router/router';
 import { PurchaseController } from '../controller/purchase.controller';
 
-export class UserRouter extends BaseRouter<PurchaseController>{
+export class PurchaseRouter extends BaseRouter<PurchaseController>{
     constructor() {
         super(PurchaseController)
     }
