@@ -1,7 +1,7 @@
 import { CategoryController } from "../controllers/category.controller"
 import { BaseRouter } from "../../shared/router/router"
 
-export class UserRouter extends BaseRouter<CategoryController>{
+export class CategoryRouter extends BaseRouter<CategoryController>{
     constructor() {
         super(CategoryController)
     }
