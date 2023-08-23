@@ -12,11 +12,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+require("reflect-metadata");
 const express_1 = __importDefault(require("express"));
 const morgan_1 = __importDefault(require("morgan"));
 const cors_1 = __importDefault(require("cors"));
-const user_routes_1 = require("./user/routes/user.routes");
 const config_1 = require("./config/config");
+const category_routes_1 = require("./category/routes/category.routes");
+const customer_routes_1 = require("./customer/routes/customer.routes");
+const product_routes_1 = require("./product/routes/product.routes");
+const purchase_routes_1 = require("./purchase/routes/purchase.routes");
+const purchase_product_routes_1 = require("./purchase/routes/purchase-product.routes");
+const user_routes_1 = require("./user/routes/user.routes");
 class Server extends config_1.ConfigServer {
     constructor() {
         super();
@@ -31,7 +37,14 @@ class Server extends config_1.ConfigServer {
         this.listen();
     }
     routers() {
-        return [new user_routes_1.UserRouter().router];
+        return [
+            new category_routes_1.CategoryRouter().router,
+            new customer_routes_1.CustomerRouter().router,
+            new product_routes_1.ProductRouter().router,
+            new purchase_routes_1.PurchaseRouter().router,
+            new purchase_product_routes_1.PurchaseProductRouter().router,
+            new user_routes_1.UserRouter().router
+        ];
     }
     dbConnect() {
         return __awaiter(this, void 0, void 0, function* () {

@@ -3,13 +3,14 @@ import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import { DataSource } from 'typeorm';
-import { UserRouter } from './user/routes/user.routes';
 import { ConfigServer } from './config/config';
-import { ProductRouter } from './product/routes/product.routes';
 import { CategoryRouter } from './category/routes/category.routes';
 import { CustomerRouter } from './customer/routes/customer.routes';
+import { ProductRouter } from './product/routes/product.routes';
 import { PurchaseRouter } from './purchase/routes/purchase.routes';
 import { PurchaseProductRouter } from './purchase/routes/purchase-product.routes';
+import { UserRouter } from './user/routes/user.routes';
+
 
 class Server extends ConfigServer {
     public app: express.Application = express();
@@ -31,12 +32,12 @@ class Server extends ConfigServer {
 
     routers(): Array<express.Router>{
         return [
-            new UserRouter().router,
-            new ProductRouter().router,
             new CategoryRouter().router,
             new CustomerRouter().router,
+            new ProductRouter().router,
             new PurchaseRouter().router,
-            new PurchaseProductRouter().router
+            new PurchaseProductRouter().router,
+            new UserRouter().router     
         ]
     }
 
