@@ -1,19 +1,21 @@
 import { Request, Response } from 'express';
 import { PurchaseProductService } from '../services/purchase-product.service';
+import { HttpResponse } from '../../shared/response/htttp.response';
 
 
 export class PurchaseProductController {
 
-    constructor(private readonly userService: PurchaseProductService = new PurchaseProductService()){};
+    constructor(private readonly userService: PurchaseProductService = new PurchaseProductService(), private readonly httpResponse: HttpResponse = new HttpResponse()){};
 
     async getPurchaseProducts(req: Request, res: Response){
        try {
         const data = await this.userService.findPurchaseProducts();
-        res.status(200).json({
-            data
-        })
+        if (data.length === 0) {
+            return this.httpResponse.NotFound(res, 'No se encontraron compras de productos')
+        }
+        return this.httpResponse.Ok(res, data);
        } catch (error) {
-        console.log(error);
+        return this.httpResponse.Error(res, error);
        }
     }
 
@@ -21,22 +23,21 @@ export class PurchaseProductController {
         const {id} = req.params;
        try {
         const data = await this.userService.findPurchaseProductById(id);
-        res.status(200).json({
-            data
-        })
+        if(!data) {
+            return this.httpResponse.NotFound(res, 'No se encontró ninguna compra de productos con ese id')
+        }
+        return this.httpResponse.Ok(res, data);
        } catch (error) {
-        console.log(error);
+        return this.httpResponse.Error(res, error);
        }
     }
 
     async createPurchaseProduct(req: Request, res: Response){
        try {
         const data = await this.userService.createPurchaseProduct(req.body);
-        res.status(200).json({
-            data
-        })
+        return this.httpResponse.Ok(res, data);
        } catch (error) {
-        console.log(error);
+        return this.httpResponse.Error(res, error);
        }
     }
 
@@ -44,11 +45,12 @@ export class PurchaseProductController {
         const {id} = req.params
        try {
         const data = await this.userService.updatePurchaseProduct(id, req.body);
-        res.status(200).json({
-            data
-        })
+        if(!data.affected) {
+            return this.httpResponse.NotFound(res, 'Error al actualizar la compra de productos');
+        }
+        return this.httpResponse.Ok(res, data);
        } catch (error) {
-        console.log(error);
+        return this.httpResponse.Error(res, error);
        }
     }
 
@@ -56,11 +58,12 @@ export class PurchaseProductController {
         const {id} = req.params
        try {
         const data = await this.userService.deletePurchaseProduct(id);
-        res.status(200).json({
-            data
-        })
+        if(!data.affected) {
+            return this.httpResponse.NotFound(res, 'Error al eliminar la compra de productos');
+        }
+        return this.httpResponse.Ok(res, data);
        } catch (error) {
-        console.log(error);
+        return this.httpResponse.Error(res, error);
        }
     }
 

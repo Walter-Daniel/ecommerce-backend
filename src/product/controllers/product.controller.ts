@@ -1,19 +1,21 @@
 import { Request, Response } from 'express';
 import { ProductService } from '../services/product.service';
+import { HttpResponse } from '../../shared/response/htttp.response';
 
 
 export class ProductController {
 
-    constructor(private readonly userService: ProductService = new ProductService()){};
+    constructor(private readonly userService: ProductService = new ProductService(), private readonly httpResponse: HttpResponse = new HttpResponse()){};
 
     async getProducts(req: Request, res: Response){
        try {
         const data = await this.userService.findProducts();
-        res.status(200).json({
-            data
-        })
+        if (data.length === 0) {
+            return this.httpResponse.NotFound(res, 'No existe ningún usuario registrado')
+        }
+        return this.httpResponse.Ok(res, data);
        } catch (error) {
-        console.log(error);
+        return this.httpResponse.Error(res, error);
        }
     }
 
@@ -21,22 +23,21 @@ export class ProductController {
         const {id} = req.params;
        try {
         const data = await this.userService.findProductById(id);
-        res.status(200).json({
-            data
-        })
+        if(!data) {
+            return this.httpResponse.NotFound(res, 'No se encontró ningún producto con ese id')
+        }
+        return this.httpResponse.Ok(res, data);
        } catch (error) {
-        console.log(error);
+        return this.httpResponse.Error(res, error);
        }
     }
 
     async createProduct(req: Request, res: Response){
        try {
         const data = await this.userService.createProduct(req.body);
-        res.status(200).json({
-            data
-        })
+        return this.httpResponse.Ok(res, data);
        } catch (error) {
-        console.log(error);
+        return this.httpResponse.Error(res, error);
        }
     }
 
@@ -44,11 +45,12 @@ export class ProductController {
         const {id} = req.params
        try {
         const data = await this.userService.updateProduct(id, req.body);
-        res.status(200).json({
-            data
-        })
+        if(!data.affected) {
+            return this.httpResponse.NotFound(res, 'Error al actualizar');
+        }
+        return this.httpResponse.Ok(res, data);
        } catch (error) {
-        console.log(error);
+        return this.httpResponse.Error(res, error);
        }
     }
 
@@ -56,11 +58,12 @@ export class ProductController {
         const {id} = req.params
        try {
         const data = await this.userService.deleteProduct(id);
-        res.status(200).json({
-            data
-        })
+        if(!data.affected) {
+            return this.httpResponse.NotFound(res, 'Error al eliminar el producto');
+        }
+        return this.httpResponse.Ok(res, data);
        } catch (error) {
-        console.log(error);
+        return this.httpResponse.Error(res, error);
        }
     }
 

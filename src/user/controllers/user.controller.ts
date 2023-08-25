@@ -12,7 +12,7 @@ export class UserController {
        try {
         const data = await this.userService.findAllUser();
         if (data.length === 0) {
-            return this.httpResponse.NotFound(res, 'No existe dato')
+            return this.httpResponse.NotFound(res, 'No existe ningún usuario registrado')
         }
         return this.httpResponse.Ok(res, data);
        } catch (error) {
@@ -25,7 +25,7 @@ export class UserController {
        try {
         const data = await this.userService.findUserById(id);
         if(!data) {
-            return this.httpResponse.NotFound(res, 'No existe el dato solicitado')
+            return this.httpResponse.NotFound(res, 'No se encontró ningún usuario con ese id')
         }
         return this.httpResponse.Ok(res, data);
        } catch (error) {
@@ -37,7 +37,6 @@ export class UserController {
        try {
         const data = await this.userService.createUser(req.body);
         return this.httpResponse.Ok(res, data);
-
        } catch (error) {
         return this.httpResponse.Error(res, error);
        }
@@ -49,7 +48,7 @@ export class UserController {
         const data: UpdateResult = await this.userService.updateUser(id, req.body);
         //evita ingresar un id erroneo, id inexistente.
         if(!data.affected) {
-            return this.httpResponse.NotFound(res, 'Error al actualizar');
+            return this.httpResponse.NotFound(res, 'Error al actualizar el usuario');
         }
         return this.httpResponse.Ok(res, data);
        } catch (error) {
@@ -62,7 +61,7 @@ export class UserController {
        try {
         const data: DeleteResult = await this.userService.deleteUser(id);
         if(!data.affected) {
-            return this.httpResponse.NotFound(res, 'Error al actualizar');
+            return this.httpResponse.NotFound(res, 'Error al eliminar el usuario');
         }
         return this.httpResponse.Ok(res, data);
        } catch (error) {
