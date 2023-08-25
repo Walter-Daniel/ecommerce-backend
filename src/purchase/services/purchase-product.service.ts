@@ -2,12 +2,15 @@ import { DeleteResult, UpdateResult } from 'typeorm';
 import { BaseServise } from '../../config/base.service';
 import { PurchaseProductEntity } from '../entities/purchase-products.entity';
 import { PurchaseProductDTO } from '../dto/purchase-product.dto';
+import { ProductService } from '../../product/services/product.service';
+
+//CREAR RELACION PRECIO CANTIDAD DE PRODUCTO
 
 export class PurchaseProductService extends BaseServise<PurchaseProductEntity> {
 
-    constructor() {
-        super(PurchaseProductEntity);
-    }
+    constructor(
+        private readonly productService: ProductService = new ProductService()
+        ) { super(PurchaseProductEntity); }
 
     async findPurchaseProducts(): Promise<PurchaseProductEntity[]>{
         return ( await this.execRepository ).find();
@@ -15,9 +18,16 @@ export class PurchaseProductService extends BaseServise<PurchaseProductEntity> {
     async findPurchaseProductById(id:string): Promise<PurchaseProductEntity | null>{
         return (await this.execRepository).findOneBy({ id });
     }
+
     async createPurchaseProduct(body: PurchaseProductDTO): Promise<PurchaseProductEntity>{
-        return (await this.execRepository).save(body)
+        //Se guarda en memoria la creación base, que puedo luego mutarla en el mismo servicio.
+        const newPP = (await this.execRepository).create(body);
+        const product = await this.productService.findProductById(newPP.product.id);
+        //la cantidad viene por el body y el precio viene de la entidad que lo tiene previamente guardado.
+        newPP.totalPrice = product!.price * newPP.quantityProducts
+        return (await this.execRepository).save(newPP)
     }
+
     async deletePurchaseProduct(id:string): Promise<DeleteResult>{
         return (await this.execRepository).delete({id})
     }
