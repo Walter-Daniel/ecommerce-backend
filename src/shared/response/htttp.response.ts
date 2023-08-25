@@ -12,7 +12,7 @@ export class HttpResponse {
     Ok(res: Response, data?: any): Response {
         return res.status(HttpStatus.OK).json({
             status: HttpStatus.OK,
-            statusMessage: 'Succes',
+            statusMessage: 'Success',
             data
         });
     };
