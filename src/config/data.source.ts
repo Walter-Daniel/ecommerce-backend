@@ -14,7 +14,7 @@ const Config : DataSourceOptions = {
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
     entities: [__dirname + '/../**/*.entity{.ts,.js}'], // Si queremos que busque fuera de un directorio y por nombre de archivo y extensión. El proyecto busca en dif carpetas los archivos con terminación entity.js o entity.ts
-    migrations: [__dirname + '/../../migrations/*{.ts,.js}'],
+    migrations: [__dirname + '/../migrations/*{.ts,.js}'],
     synchronize: false,
     migrationsRun: true,
     logging: false,
