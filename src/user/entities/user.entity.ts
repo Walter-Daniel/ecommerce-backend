@@ -12,7 +12,7 @@ export class UserEntity extends BaseEntity {
     @Column()
     lastname!: string;
 
-    @Column()
+    @Column({ unique: true })
     email!: string;
 
     @Column({ select:false })

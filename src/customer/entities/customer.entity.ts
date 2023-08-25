@@ -14,7 +14,7 @@ export class CustomerEntity extends BaseEntity {
 
     @OneToOne(() => UserEntity, (user) => user.customer)
     @JoinColumn({ name:'user_id' })
-    user!: UserEntity
+    user!: UserEntity;
 
     @OneToMany(() => PurchaseEntity, (purchase) => purchase.customer)
     purchases!: PurchaseEntity[];
