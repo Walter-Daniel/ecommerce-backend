@@ -31,6 +31,19 @@ export class PurchaseController {
        }
     }
 
+    async getPurchaseWithRelationById(req: Request, res: Response){
+        const {id} = req.params;
+       try {
+        const data = await this.userService.findPurchaseRelationsById(id);
+        if(!data) {
+            return this.httpResponse.NotFound(res, 'No se encontró ninguna compra con ese id')
+        }
+        return this.httpResponse.Ok(res, data);
+       } catch (error) {
+        return this.httpResponse.Error(res, error);
+       }
+    }
+
     async createPurchase(req: Request, res: Response){
        try {
         const data = await this.userService.createPurchase(req.body);
