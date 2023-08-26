@@ -1,15 +1,19 @@
 import { NextFunction, Request, Response } from 'express';
 import { validate } from 'class-validator';
 import { HttpResponse } from '../../shared/response/htttp.response';
-import { CategoryDTO } from '../dto/category.dto';
+import { ProductDTO } from '../dto/product.dto';
 
-export class CategoryMiddleware {
+export class ProductMiddleware {
     constructor(private readonly httpResponse : HttpResponse = new HttpResponse()){}
-    categoryValidatior(req: Request, res:Response, next: NextFunction){
-        const {categoryName} = req.body;
+    ProductValidatior(req: Request, res:Response, next: NextFunction){
+        const {productName, description, price, stock, category} = req.body;
 
-        const validator = new CategoryDTO();
-        validator.categoryName = categoryName;
+        const validator = new ProductDTO();
+        validator.productName = productName;
+        validator.description = description;
+        validator.price = price ;
+        validator.stock = stock;
+        validator.category = category;
    
         validate(validator).then((error) => {
             if(error.length > 0) {
