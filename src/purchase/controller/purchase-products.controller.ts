@@ -32,6 +32,19 @@ export class PurchaseProductController {
        }
     }
 
+    async getPurchaseProductRelationById(req: Request, res: Response){
+        const {id} = req.params;
+       try {
+        const data = await this.userService.findPurchaseProducRelationstById(id);
+        if(!data) {
+            return this.httpResponse.NotFound(res, 'No se encontró ninguna compra de productos con ese id')
+        }
+        return this.httpResponse.Ok(res, data);
+       } catch (error) {
+        return this.httpResponse.Error(res, error);
+       }
+    }
+
     async createPurchaseProduct(req: Request, res: Response){
        try {
         const data = await this.userService.createPurchaseProduct(req.body);
