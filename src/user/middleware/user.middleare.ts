@@ -6,7 +6,7 @@ import { HttpResponse } from '../../shared/response/htttp.response';
 export class UserMiddleware {
     constructor(private readonly httpResponse : HttpResponse = new HttpResponse()){}
     userValidatior(req: Request, res:Response, next: NextFunction){
-        const {name, lastname, email, password, province, city, rol} = req.body;
+        const {name, lastname, email, password, province, city, role} = req.body;
 
         const validator = new UserDTO();
         validator.name = name;
@@ -15,7 +15,7 @@ export class UserMiddleware {
         validator.password = password;
         validator.province = province;
         validator.city = city;
-        validator.rol = rol;
+        validator.role = role;
    
         validate(validator).then((error) => {
             if(error.length > 0) {
