@@ -10,7 +10,8 @@ import { ProductRouter } from './product/routes/product.routes';
 import { PurchaseRouter } from './purchase/routes/purchase.routes';
 import { PurchaseProductRouter } from './purchase/routes/purchase-product.routes';
 import { UserRouter } from './user/routes/user.routes';
-
+import { LoginStrategy } from './auth/strategies/login.strategy';
+import { JwtStrategy } from './auth/strategies/jwt.strategy';
 
 class Server extends ConfigServer {
     public app: express.Application = express();
@@ -20,9 +21,8 @@ class Server extends ConfigServer {
         super();
         this.app.use(express.json());
         this.app.use(express.urlencoded({ extended: true }));
-
+        this.passportUse();
         this.dbConnect();
-
         this.app.use(morgan('dev'));
         this.app.use(cors());
 
@@ -38,6 +38,13 @@ class Server extends ConfigServer {
             new PurchaseRouter().router,
             new PurchaseProductRouter().router,
             new UserRouter().router     
+        ]
+    };
+
+    passportUse(){
+    return [ 
+            new LoginStrategy().use,
+            new JwtStrategy().use 
         ]
     }
 
